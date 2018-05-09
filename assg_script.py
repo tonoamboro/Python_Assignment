@@ -25,47 +25,72 @@ def count_kmers(seq, k):
         counts[kmer] += 1
     return counts
 
-#This line is the main function to call all the functions in the above
+#This function is the method to generate table in .csv file
+def generate_table(data_contents, dna_name):
+    content = pd.DataFrame([[c[0], c[1], c[2]] for c in data_contents],
+    columns=['k', 'observed kmers', 'possible kmers'])
+    content.to_csv('output/tables/'+dna_name+'.csv', index=False)
+
+#This line is the main function to call the functions listed in the above
 if __name__ == "__main__":
     filename=sys.argv[1]
     if filename in glob.glob('*.fasta'):
         f = open(filename,'r')
         seq = f.readlines()
+        dna_name_list = []
+        observed_total_counts = []
+        possible_total_counts = []
+        linguistic_complexity_counts = []
 
         for line_num, line in enumerate(seq[0:len(seq)]):
             if len(line) > 1 :
                 if '>' in line :
-                    print("Species Name", line)
+                    #print("Species Name", line)
+                    line = line.replace(">", "")
+                    dna_name = line.rstrip()
+                    dna_name_list.append(dna_name)
                 else:
                     seq = line.rstrip()
-                    print("DNA Sequence =", seq)
+                    #print("DNA Sequence =", seq)
                     f_alphabets = false_alphabet(seq)
                     if f_alphabets != None:
-                        print('fail to execute DNA sequence due to false alphabet', f_alphabets)
-                        exit()
-                    k_counts = []
-                    observed_counts = []
-                    possible_counts = []
+                        print()
+                        print('you may check this sequence', line)
+                        print('failed to generate output for the sequnce/s in the above due to false alphabet/s', f_alphabets)
+                        print()
+                        #exit()
+                    else:
+                        k_counts = []
+                        observed_counts = []
+                        possible_counts = []
 
-                    for k in range(1,len(seq)+1):
-                        if k == 1:
-                            possible = 4
-                        else:
-                            possible = len(seq) - k + 1
-                        counts = count_kmers(seq, k)
-                        observed = len(counts)
-                        k_counts.append(k)
-                        observed_counts.append(observed)
-                        possible_counts.append(possible)
-                        #print(k_list, observed_list, possible_list)
+                        for k in range(1,len(seq)+1):
+                            if k == 1:
+                                possible = 4
+                            else:
+                                possible = len(seq) - k + 1
+                            counts = count_kmers(seq, k)
+                            observed = len(counts)
+                            k_counts.append(k)
+                            observed_counts.append(observed)
+                            possible_counts.append(possible)
+                            #print(k_list, observed_list, possible_list)
 
-                    observed_total = sum(observed_counts)
-                    possible_total = sum(possible_counts)
-                    linguistic_complexity = observed_total/possible_total
-                    observed_counts.append(observed_total)
-                    possible_counts.append(possible_total)
-                    k_counts.append(linguistic_complexity)
-                    merge_counts = zip(k_counts, observed_counts, possible_counts)
-                    print(list(merge_counts))
+                        #counts the total observed and possible kmers
+                        observed_total = sum(observed_counts)
+                        possible_total = sum(possible_counts)
+                        linguistic_complexity = observed_total/possible_total
+                        observed_counts.append(observed_total)
+                        observed_total_counts.append(observed_total)
+                        possible_counts.append(possible_total)
+                        possible_total_counts.append(possible_total)
+                        linguistic_complexity_counts.append(linguistic_complexity)
+                        k_counts.append('Total');
+
+                        #put the data into the table
+                        data_contents = list(zip(k_counts, observed_counts, possible_counts))
+                        contents = generate_table(data_contents, dna_name)
+                        #print(list(merge_counts))
+
     else:
         print('file is not recognized')
