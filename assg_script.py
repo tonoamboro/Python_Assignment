@@ -3,7 +3,6 @@
 import sys
 import glob
 import pandas as pd
-import matplotlib.pyplot as plt; plt.rcdefaults()
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -38,12 +37,31 @@ def generate_lc_graph(filename, dna_name_list, linguistic_complexity_counts):
     objects = dna_name_list
     y_pos = np.arange(len(objects))
     value = linguistic_complexity_counts
+    plt.figure(0)
     plt.bar(y_pos, value, align='center', alpha=0.5)
     plt.xticks(y_pos, objects)
     plt.ylabel('Value')
     plt.xlabel('Species')
     plt.title('Linguistic Complexity')
-    graph_name = filename + 'lc.png'
+    graph_inital = filename + '_lc.png'
+    plt.savefig('output/graphs/'+graph_inital)
+
+#This function is the method to generate graph for comparison between total obseved and possible kmers of all dna sequence
+def generate_comparison_graph(filename, dna_name_list, observed_total_counts, possible_total_counts):
+    fig, ax = plt.subplots()
+    index = np.arange(len(dna_name_list))
+    bar_width = 0.25
+    opacity = 0.75
+    rects1 = plt.bar(index, observed_total_counts, bar_width,
+                    alpha=opacity, color='red', label='Observed')
+    rects2 = plt.bar(index + bar_width, possible_total_counts, bar_width,
+                    alpha=opacity, color='blue', label='Possible')
+    plt.xlabel('Species')
+    plt.ylabel('Number of kmers')
+    plt.title('Comparison of Total Observed and Possible Kmers for each Species')
+    plt.xticks(index + bar_width, dna_name_list)
+    plt.legend()
+    graph_name = filename + '_TOP_Kmers.png'
     plt.savefig('output/graphs/'+graph_name)
 
 #This line is the main function to call the functions listed in the above
@@ -110,5 +128,8 @@ if __name__ == "__main__":
                         #generate lingustic complexity graph
                         lc_graph = generate_lc_graph(filename, dna_name_list, linguistic_complexity_counts)
 
+                        #generate total observed and possible kmers graphs
+                        top_graph = generate_comparison_graph(filename, dna_name_list, observed_total_counts, possible_total_counts)
+
     else:
-        print('file is not recognized')
+        print('file is not recognized, it should be .fasta format!')
