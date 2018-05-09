@@ -19,11 +19,16 @@ def false_alphabet(seq):
 #This function is the method to count kmers
 def count_kmers(seq, k):
     counts = {}
-    for i in range(len(seq) - k + 1):
-        kmer = seq[i:i+k]
-        if kmer not in counts:
-            counts[kmer] = 0
-        counts[kmer] += 1
+    if k>0 and type(k) is int:
+        for i in range(len(seq) - k + 1):
+            kmer = seq[i:i+k]
+            assert len(kmer) == k, \
+            "Trying to add incorrect kmer: " +\
+            kmer+ "from line" + str(line_num) +\
+            " position " + str(i)
+            if kmer not in counts:
+                counts[kmer] = 0
+            counts[kmer] += 1
     return counts
 
 #This function is the method to generate table in .csv file
