@@ -18,5 +18,6 @@ This repository was created as a part assignment on Big Data Analysis course, wh
 ## IMPORTANT! So you could use the script and replicate the process!
 Before you run the script:
 1. Ensure your data file is in .fasta format.
-2. Create output folder, and create tables and graphs folder inside the output folder.
-3. Although, you will be warned when your DNA sequence is incorrect, always ensuring your DNA sequence in the right format is recommended.
+2. Place the script and the data in the same directory.
+3. Create output folder in the same directory, and create tables and graphs folder inside the output folder.
+4. Although, you will be warned when your DNA sequence is incorrect, always ensuring your DNA sequence in the right format is recommended.
