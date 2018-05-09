@@ -3,7 +3,9 @@
 import sys
 import glob
 import pandas as pd
+import matplotlib.pyplot as plt; plt.rcdefaults()
 import matplotlib.pyplot as plt
+import numpy as np
 
 #This function is for tracing false alphabets in the DNA sequence
 def false_alphabet(seq):
@@ -31,6 +33,19 @@ def generate_table(data_contents, dna_name):
     columns=['k', 'observed kmers', 'possible kmers'])
     content.to_csv('output/tables/'+dna_name+'.csv', index=False)
 
+#This function is the method to generate graph for linguistic complexity
+def generate_lc_graph(filename, dna_name_list, linguistic_complexity_counts):
+    objects = dna_name_list
+    y_pos = np.arange(len(objects))
+    value = linguistic_complexity_counts
+    plt.bar(y_pos, value, align='center', alpha=0.5)
+    plt.xticks(y_pos, objects)
+    plt.ylabel('Value')
+    plt.xlabel('Species')
+    plt.title('Linguistic Complexity')
+    graph_name = filename + 'lc.png'
+    plt.savefig('output/graphs/'+graph_name)
+
 #This line is the main function to call the functions listed in the above
 if __name__ == "__main__":
     filename=sys.argv[1]
@@ -55,10 +70,10 @@ if __name__ == "__main__":
                     f_alphabets = false_alphabet(seq)
                     if f_alphabets != None:
                         print()
-                        print('you may check this sequence', line)
-                        print('failed to generate output for the sequnce/s in the above due to false alphabet/s', f_alphabets)
+                        print('Process stopped! Failed to generate outputs due to false alphabet/s', f_alphabets)
+                        print('You should correct this sequence before you proceed any further!', line)
                         print()
-                        #exit()
+                        exit()
                     else:
                         k_counts = []
                         observed_counts = []
@@ -87,10 +102,13 @@ if __name__ == "__main__":
                         linguistic_complexity_counts.append(linguistic_complexity)
                         k_counts.append('Total');
 
-                        #put the data into the table
+                        #generate the data into the table
                         data_contents = list(zip(k_counts, observed_counts, possible_counts))
                         contents = generate_table(data_contents, dna_name)
                         #print(list(merge_counts))
+
+                        #generate lingustic complexity graph
+                        lc_graph = generate_lc_graph(filename, dna_name_list, linguistic_complexity_counts)
 
     else:
         print('file is not recognized')
