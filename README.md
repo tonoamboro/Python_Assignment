@@ -7,7 +7,7 @@ This repository was created as a part assignment on Big Data Analysis course, wh
 
 ## Contents of the repository
 1. README.md (this file).
-2. Script.ipynb. It is a python script which generated from Jupyter lab. I created this file so that I can try some scripts before I write it on the .py files. This file is the environment for trial and error some scripts. 
+2. Script.ipynb. It is a python script which generated from Jupyter lab. I created this file so that I can try some scripts before I write it on the .py files. This file is the environment for trial and error of some scripts. 
 3. assg_script.py. It is the main script that I created for this assignment. In this script, I write some method to achieve the goal of this assignment. 
 4. test_assg_script.py. It is a pytest file for testing the function that I wrote in the main script. This script ensures the main script to generate the desired output. 
 5. nd2.fasta. It is a DNA sample (in .fasta format) that contain a lot of DNA sequences from many species. Our instructor provides this file. 
