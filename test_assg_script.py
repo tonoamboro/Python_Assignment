@@ -22,3 +22,8 @@ def test_counts_kmers4(seq):
 def test_counts_kmers19(seq):
     counts = count_kmers(seq, 19)
     assert len(counts) == 0
+
+#test k < 0 (more than seqence) produces 0 kmers
+def test_counts_kmers(seq):
+    counts = count_kmers(seq, -1)
+    assert len(counts) == 0
