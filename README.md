@@ -3,7 +3,7 @@
 Tono Amboro
 
 ## Description
-This repository was created as a part assignment on Big Data Analysis course, which will attempt to create several methods for analyzing DNA sequence using Python 3.  
+This repository was created as a part of the assignment on Big Data Analysis course, which will attempt to create several methods for analyzing DNA sequence using Python 3.  
 
 ## Contents of the repository
 1. README.md (this file).
